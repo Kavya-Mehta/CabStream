@@ -3,14 +3,14 @@ version: "3.8"
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
-    container_name: taxiiq-zookeeper
+    container_name: cabstream-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
-    container_name: taxiiq-kafka
+    container_name: cabstream-kafka
     depends_on:
       - zookeeper
     ports:
