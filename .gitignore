@@ -1,4 +1,6 @@
 data/
-*.pyc
+*.parquet
+*.crc
 __pycache__/
+*.pyc
 .env
