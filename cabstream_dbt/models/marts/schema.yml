@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: fact_trips
+    description: "One row per NYC taxi trip with all measurable facts"
+    columns:
+      - name: fare_amount
+        description: "Base fare in USD"
+        data_tests:
+          - not_null
+      - name: pickup_location_id
+        description: "TLC pickup zone ID"
+        data_tests:
+          - not_null
+      - name: pickup_datetime
+        description: "Trip pickup timestamp"
+        data_tests:
+          - not_null
+
+  - name: dim_zone
+    description: "265 NYC taxi zones with borough mapping"
+    columns:
+      - name: zone_id
+        description: "TLC zone ID"
+        data_tests:
+          - not_null
+          - unique
+
+  - name: dim_time
+    description: "Time attributes for trip analysis"
+    columns:
+      - name: pickup_hour
+        description: "Hour of pickup (0-23)"
+        data_tests:
+          - not_null
+
+  - name: dim_weather
+    description: "Weather conditions during trips"
+    columns:
+      - name: weather_condition
+        description: "Weather condition (Clear/Rain/Snow)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ["Clear", "Rain", "Snow"]

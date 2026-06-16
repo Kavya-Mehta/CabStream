@@ -1,6 +1,20 @@
+# Data files
 data/
 *.parquet
 *.crc
-__pycache__/
+
+# Python
 *.pyc
+__pycache__/
 .env
+
+# dbt
+cabstream_dbt/target/
+cabstream_dbt/dbt_packages/
+cabstream_dbt/logs/
+cabstream_dbt/dev.duckdb
+cabstream_dbt/dev.duckdb.wal
+
+# Spark temp
+derby.log
+metastore_db/

@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_silver_trips
+    description: "Staged NYC taxi trips from Silver Delta table"
+    columns:
+      - name: pickup_datetime
+        description: "Trip pickup timestamp"
+        tests:
+          - not_null
+      - name: fare_amount
+        description: "Base fare in USD"
+        tests:
+          - not_null
+      - name: pickup_location_id
+        description: "TLC taxi zone ID for pickup"
+        tests:
+          - not_null
