@@ -1,0 +1,60 @@
+[0m19:59:46.887811 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD73083EB0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD75D07E50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD75D30130>]}
+
+
+============================== 19:59:46.900258 | cd8e6560-c34e-47f5-aed5-5931670a783c ==============================
+[0m19:59:46.900258 [info ] [MainThread]: Running with dbt=1.7.0
+[0m19:59:46.900258 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\kavya\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt init cabstream_dbt', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m19:59:46.900258 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': WindowsPath('C:/Users/kavya/.dbt')}
+[0m19:59:46.909758 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m19:59:46.913874 [debug] [MainThread]: Starter project path: C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\include\starter_project
+[0m19:59:47.115565 [info ] [MainThread]: 
+Your new dbt project "cabstream_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m19:59:47.117574 [info ] [MainThread]: Setting up your profile.
+[0m20:00:49.527412 [error] [MainThread]: Encountered an error:
+
+[0m20:00:49.614604 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\cli\requires.py", line 90, in wrapper
+    result, success = func(*args, **kwargs)
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\cli\requires.py", line 75, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\cli\main.py", line 515, in init
+    results = task.run()
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\task\init.py", line 344, in run
+    self.setup_profile(profile_name)
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\task\init.py", line 263, in setup_profile
+    adapter = self.ask_for_adapter_choice()
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\dbt\task\init.py", line 244, in ask_for_adapter_choice
+    numeric_choice = click.prompt(prompt_msg, type=click.INT)
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\click\termui.py", line 171, in prompt
+    value = prompt_func(prompt)
+  File "C:\Users\kavya\.pyenv\pyenv-win\versions\3.10.1\lib\site-packages\click\termui.py", line 154, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m20:00:49.622298 [debug] [MainThread]: Command `dbt init` failed at 20:00:49.620290 after 62.85 seconds
+[0m20:00:49.622298 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD73083EB0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD75D30D30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD75D30580>]}
+[0m20:00:49.624305 [debug] [MainThread]: Flushing usage events
+[0m20:02:48.090588 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002EC6F9DF520>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002EC72697B50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002EC726978E0>]}
+
+
+============================== 20:02:48.113157 | fd4b1eac-2652-43ea-9a68-161f5e8a2102 ==============================
+[0m20:02:48.113157 [info ] [MainThread]: Running with dbt=1.7.0
+[0m20:02:48.113157 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\kavya\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'invocation_command': 'dbt init cabstream_dbt', 'use_colors': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m20:02:48.113157 [info ] [MainThread]: A project called cabstream_dbt already exists here.
+[0m20:02:48.122963 [debug] [MainThread]: Command `dbt init` succeeded at 20:02:48.121163 after 0.11 seconds
+[0m20:02:48.123560 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002EC6F9DF520>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002EC726979A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002EC72697C40>]}
+[0m20:02:48.123560 [debug] [MainThread]: Flushing usage events
