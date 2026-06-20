@@ -60,3 +60,8 @@ variable "tenant_id" {
   description = "Azure tenant ID"
   type        = string
 }
+
+variable "user_object_id" {
+  description = "Your personal Azure AD object ID for Key Vault read access"
+  type        = string
+}
