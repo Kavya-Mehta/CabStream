@@ -19,7 +19,7 @@ resource "azurerm_databricks_workspace" "cabstream" {
   name                = var.databricks_workspace_name
   resource_group_name = azurerm_resource_group.cabstream.name
   location            = azurerm_resource_group.cabstream.location
-  sku                 = "standard"
+  sku                 ="premium"
 
   tags = {
     project     = var.project_name
