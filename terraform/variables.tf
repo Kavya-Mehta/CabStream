@@ -72,3 +72,16 @@ variable "databricks_app_object_id" {
   type        = string
   default     = "505b3f0e-cbbb-4c47-9860-fa8b33192fed"
 }
+
+# variables.tf
+variable "databricks_spark_version" {
+  description = "Databricks Runtime version. LTS release, verified compatible with Delta Lake 3.3.1 and project dependencies. Update only after testing in a throwaway workspace."
+  type        = string
+  default     = "17.3.x-scala2.13"
+}
+
+variable "databricks_node_type" {
+  description = "Azure VM SKU for the Databricks cluster. Standard_F4ads_v7 is the smallest available in East US with local disk. Reconfirm on region change."
+  type        = string
+  default     = "Standard_F4ads_v7"
+}
