@@ -10,9 +10,12 @@
 # - At Google/Meta/Uber, hardcoded credentials
 #   would fail code review immediately
 #
-# Two access policies:
+# Three access policies:
 # 1. Service principal (Terraform + Databricks): full CRUD
 # 2. Your personal account: read only (for debugging)
+# 3. Azure Databricks platform service principal: read only
+#    (required for Key Vault-backed secret scopes to resolve
+#    secrets at cluster runtime, not just at apply time)
 # This follows principle of least privilege
 
 data "azurerm_client_config" "current" {}
@@ -47,6 +50,19 @@ resource "azurerm_key_vault" "cabstream" {
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = var.user_object_id
+
+    secret_permissions = [
+      "Get",
+      "List"
+    ]
+  }
+
+  # Policy 3: Azure Databricks platform service principal
+  # Required for Key Vault-backed secret scopes to resolve secrets at runtime
+  # Without this, cluster creation succeeds but secret resolution fails on launch
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = var.databricks_app_object_id
 
     secret_permissions = [
       "Get",
