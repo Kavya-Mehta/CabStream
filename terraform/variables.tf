@@ -65,3 +65,10 @@ variable "user_object_id" {
   description = "Your personal Azure AD object ID for Key Vault read access"
   type        = string
 }
+
+
+variable "databricks_app_object_id" {
+  description = "Object ID of the Azure Databricks platform service principal in this tenant (for Key Vault-backed secret scopes)"
+  type        = string
+  default     = "505b3f0e-cbbb-4c47-9860-fa8b33192fed"
+}

@@ -10,16 +10,16 @@
 # - Same PySpark code from local dev runs unchanged
 # - Unity Catalog for data governance (production feature)
 #
-# Why Standard tier not Premium:
-# - Standard has everything we need for this project
-# - Premium adds RBAC and Unity Catalog (overkill for portfolio)
-# - Saves ~40% on DBU costs
+# Why Premium tier:
+# - Required for Key Vault-backed secret scopes (used in databricks_cluster.tf)
+# - Adds RBAC and Unity Catalog support
+# - ~40% more DBU cost than Standard, justified by secret scope requirement
 
 resource "azurerm_databricks_workspace" "cabstream" {
   name                = var.databricks_workspace_name
   resource_group_name = azurerm_resource_group.cabstream.name
   location            = azurerm_resource_group.cabstream.location
-  sku                 ="premium"
+  sku                 = "premium"
 
   tags = {
     project     = var.project_name
