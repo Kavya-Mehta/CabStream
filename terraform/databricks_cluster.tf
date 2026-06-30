@@ -42,11 +42,11 @@ resource "databricks_cluster" "cabstream" {
     "ResourceClass" = "SingleNode"
   }
 
-  library {
-    pypi {
-      package = "azureml-opendatasets"
-    }
-  }
+  # library {
+  #   pypi {
+  #     package = "azureml-opendatasets"
+  #   }
+  # }
 }
 
 

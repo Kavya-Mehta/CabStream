@@ -12,6 +12,12 @@
 # - Cheapest option (~$0.02/GB)
 # - Fine for a portfolio project
 # - Production would use ZRS or GRS for disaster recovery
+#
+# Why prevent_destroy = true:
+# - Bronze/Silver/Gold Delta tables are written once, read forever
+# - Storage must survive terraform destroy between sessions
+# - Compute (Databricks, EventHubs, KeyVault) gets destroyed each session
+# - Storage does not — this lifecycle block enforces that at the code level
 
 resource "azurerm_storage_account" "cabstream" {
   name                     = var.storage_account_name
@@ -21,8 +27,6 @@ resource "azurerm_storage_account" "cabstream" {
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
 
-  # This enables ADLS Gen2 (hierarchical namespace)
-  # Must be enabled at creation time, cannot be changed later
   is_hns_enabled = true
 
   tags = {
@@ -30,6 +34,10 @@ resource "azurerm_storage_account" "cabstream" {
     owner       = var.owner_email
     environment = "dev"
     managed_by  = "terraform"
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 
@@ -39,6 +47,10 @@ resource "azurerm_storage_container" "delta" {
   name                  = "delta"
   storage_account_name  = azurerm_storage_account.cabstream.name
   container_access_type = "private"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Container for raw data files (Parquet)
@@ -46,4 +58,8 @@ resource "azurerm_storage_container" "raw" {
   name                  = "raw"
   storage_account_name  = azurerm_storage_account.cabstream.name
   container_access_type = "private"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
