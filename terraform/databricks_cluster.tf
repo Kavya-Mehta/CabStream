@@ -25,29 +25,30 @@ resource "databricks_secret_scope" "cabstream_kv" {
 
 resource "databricks_cluster" "cabstream" {
   cluster_name            = "cabstream-cluster"
-  spark_version           = var.databricks_spark_version
-  node_type_id            = var.databricks_node_type
+  spark_version           = "17.3.x-scala2.13"
+  node_type_id            = "Standard_F4ads_v7"
   autotermination_minutes = 15
   num_workers             = 0
   data_security_mode      = "SINGLE_USER"
   single_user_name        = var.owner_email
 
   spark_conf = {
-    "spark.databricks.cluster.profile"                                                    = "singleNode"
-    "spark.master"                                                                        = "local[*]"
-    "fs.azure.account.key.${azurerm_storage_account.cabstream.name}.dfs.core.windows.net" = "{{secrets/cabstream-kv-scope/adls-storage-key}}"
+    "spark.databricks.cluster.profile"                        = "singleNode"
+    "spark.master"                                            = "local[*]"
+    "fs.azure.account.key.cabstreamdata.dfs.core.windows.net" = "{{secrets/cabstream-kv-scope/adls-storage-key}}"
+  }
+
+  azure_attributes {
+    availability       = "SPOT_WITH_FALLBACK_AZURE"
+    first_on_demand    = 1
+    spot_bid_max_price = -1
   }
 
   custom_tags = {
     "ResourceClass" = "SingleNode"
   }
-
-  # library {
-  #   pypi {
-  #     package = "azureml-opendatasets"
-  #   }
-  # }
 }
+
 
 
 output "cluster_id" {
