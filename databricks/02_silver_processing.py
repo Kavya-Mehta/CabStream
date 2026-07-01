@@ -102,3 +102,37 @@ bad_df.write \
 
 print(f"Dead-letter written: {ADLS_DEAD_LETTER}")
 print(f"Dead-letter row count: {bad_count:,}")
+
+# COMMAND ----------
+
+from delta.tables import DeltaTable
+from pyspark.sql import functions as F
+
+ADLS_SILVER = "abfss://delta@cabstreamdata.dfs.core.windows.net/silver/taxi_trips"
+ADLS_WEATHER_SILVER = "abfss://delta@cabstreamdata.dfs.core.windows.net/silver/weather"
+ADLS_SILVER_ENRICHED = "abfss://delta@cabstreamdata.dfs.core.windows.net/silver/taxi_trips_enriched"
+
+# Read Silver yellow and weather
+silver_df = spark.read.format("delta").load(ADLS_SILVER)
+weather_df = spark.read.format("delta").load(ADLS_WEATHER_SILVER)
+
+# Join on pickup_date_str + pickup_hour
+enriched_df = silver_df.join(
+    weather_df,
+    on=["pickup_date_str", "pickup_hour"],
+    how="left"
+)
+
+print(f"Silver rows before join: {silver_df.count():,}")
+print(f"Enriched rows after join: {enriched_df.count():,}")
+print(f"Weather match rate: {enriched_df.filter(F.col('weather_temp_c').isNotNull()).count() / enriched_df.count() * 100:.1f}%")
+
+# Write enriched Silver
+enriched_df.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .option("overwriteSchema", "true") \
+    .partitionBy("puYear", "puMonth") \
+    .save(ADLS_SILVER_ENRICHED)
+
+print(f"Enriched Silver written: {ADLS_SILVER_ENRICHED}")
