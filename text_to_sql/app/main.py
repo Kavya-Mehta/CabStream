@@ -6,6 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import duckdb
 import os
+
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(__file__), "../../.env"))
+
+
 from app.agent import generate_sql, explain_results
 from app.guardrails import validate_sql
 
