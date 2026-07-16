@@ -8,12 +8,16 @@ from typing import Tuple
 
 # Allowed tables — exactly what exists in Gold layer
 ALLOWED_TABLES = {
+    "monthly_trips",
+    "borough_summary",
+    "zone_summary",
+    "hourly_summary",
+    "weather_summary",
     "fact_trips_yellow",
     "fact_trips_fhvhv",
     "dim_time",
     "dim_zone",
 }
-
 # Dangerous SQL keywords — block anything that modifies data
 FORBIDDEN_KEYWORDS = {
     "INSERT", "UPDATE", "DELETE", "DROP", "CREATE", "ALTER",
