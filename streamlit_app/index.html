@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CabStream — NYC Taxi Intelligence</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+        :root {
+            --yellow: #F7C948;
+            --bg: #080B14;
+            --bg-card: #0F1420;
+            --bg-card-hover: #141926;
+            --border: #1C2235;
+            --text-primary: #E8EAF0;
+            --text-secondary: #6B7FA8;
+            --text-muted: #3A4560;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --sans: 'Inter', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 48px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(8, 11, 20, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+        }
+
+        .nav-logo span {
+            color: var(--yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .hero {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 64px 48px 48px;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .hero-title em {
+            color: var(--yellow);
+            font-style: normal;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 960px;
+            margin: 0 auto 56px;
+        }
+
+        .stat {
+            background: var(--bg-card);
+            padding: 18px 20px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 1.65rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .stat-val.dim {
+            color: var(--text-primary);
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 48px 80px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .query-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .query-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .query-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--yellow);
+        }
+
+        .query-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .query-row {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .query-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 14px 18px;
+            font-size: 14px;
+            color: var(--text-primary);
+            font-family: var(--sans);
+            min-width: 0;
+        }
+
+        .query-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .query-btn {
+            background: var(--yellow);
+            color: #080B14;
+            border: none;
+            padding: 0 22px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+            font-family: var(--sans);
+            flex-shrink: 0;
+        }
+
+        .query-btn:hover {
+            background: #E8B800;
+        }
+
+        .query-btn:disabled {
+            background: var(--bg-card-hover);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .results-area {
+            padding: 18px;
+            min-height: 180px;
+        }
+
+        .results-empty {
+            text-align: center;
+            padding: 36px 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .results-empty-line {
+            width: 32px;
+            height: 2px;
+            background: var(--border);
+            margin: 0 auto 12px;
+        }
+
+        .result-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .result-count {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .result-count strong {
+            color: var(--yellow);
+        }
+
+        .result-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th {
+            background: #0A0D18;
+            color: var(--text-muted);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 9px 13px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 8px 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .result-chart {
+            margin-bottom: 18px;
+        }
+
+        .chart-wrap {
+            position: relative;
+        }
+
+        .sql-label {
+            font-size: 10px;
+            color: var(--yellow);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 7px;
+            font-family: var(--sans);
+        }
+
+        .sql-block {
+            background: #0A0D18;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 13px 15px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: #5B7DB1;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .insight {
+            margin-top: 13px;
+            padding: 12px 15px;
+            background: rgba(247, 201, 72, 0.05);
+            border-left: 2px solid var(--yellow);
+            border-radius: 0 6px 6px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .error-box {
+            padding: 13px 15px;
+            background: rgba(220, 50, 50, 0.08);
+            border: 1px solid rgba(220, 50, 50, 0.2);
+            border-radius: 8px;
+            font-size: 13px;
+            color: #E06060;
+            line-height: 1.6;
+        }
+
+        .guardrail-box {
+            padding: 13px 15px;
+            background: rgba(247, 201, 72, 0.06);
+            border: 1px solid rgba(247, 201, 72, 0.2);
+            border-radius: 8px;
+            font-size: 13px;
+            color: #C49A1A;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.6;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .spinner {
+            width: 15px;
+            height: 15px;
+            border: 2px solid var(--border);
+            border-top-color: var(--yellow);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .sidebar-card-header {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .sidebar-card-header.accent {
+            color: var(--yellow);
+        }
+
+        .story-group {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .story-group:last-child {
+            border-bottom: none;
+        }
+
+        .story-group-label {
+            padding: 0 14px 6px;
+            font-size: 10px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .story-btn {
+            display: block;
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 6px 14px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.12s;
+            font-family: var(--sans);
+            line-height: 1.4;
+        }
+
+        .story-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            padding-left: 18px;
+        }
+
+        .tech-list {
+            padding: 12px 14px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .tech-item:last-child {
+            border-bottom: none;
+        }
+
+        .tech-name {
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .tech-val {
+            color: var(--text-primary);
+            font-family: var(--mono);
+            font-size: 11px;
+            text-align: right;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width:900px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            nav,
+            .hero,
+            .main,
+            footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .hero {
+                padding-top: 40px;
+                padding-bottom: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-logo">🚕 <span>CabStream</span></div>
+        <div class="nav-links">
+            <a href="https://github.com/Kavya-Mehta/CabStream" target="_blank">GitHub</a>
+            <a href="#stack">Stack</a>
+            <span class="nav-badge">1.57B trips · 2019–2025</span>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-eyebrow">NYC Taxi Intelligence Platform</div>
+        <h1 class="hero-title"><em>1.57 billion</em> trips.<br>Ask anything.</h1>
+        <p class="hero-sub">Seven years of NYC taxi and rideshare data — COVID collapse, the rise of Uber, weather
+            patterns — queryable in plain English through a Claude-powered AI agent with guardrailed SQL generation.</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-val">1.57B</div>
+            <div class="stat-lbl">Total trips analyzed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val">−96.6%</div>
+            <div class="stat-lbl">Demand drop · Apr 2020</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val">86.9%</div>
+            <div class="stat-lbl">Rideshare share · 2024</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val dim">7 yrs</div>
+            <div class="stat-lbl">2019 through 2025</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val dim">99.8%</div>
+            <div class="stat-lbl">Weather match rate</div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="query-panel">
+            <div class="query-header">
+                <div class="query-dot"></div>
+                <span class="query-lbl">Natural language query</span>
+            </div>
+            <div class="query-row">
+                <input class="query-input" id="queryInput"
+                    placeholder="e.g. How did COVID affect yellow taxi demand month by month in 2020?"
+                    autocomplete="off" />
+                <button class="query-btn" id="runBtn" onclick="runQuery()">Run query →</button>
+            </div>
+            <div class="results-area" id="resultsArea">
+                <div class="results-empty">
+                    <div class="results-empty-line"></div>
+                    Ask a question or pick a story from the right
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <div class="sidebar-card-header accent">Explore by story</div>
+                <div class="story-group">
+                    <div class="story-group-label">COVID collapse</div>
+                    <button class="story-btn" onclick="ask('Yellow taxi trips month by month in 2020')">Yellow taxi
+                        trips month by month in 2020</button>
+                    <button class="story-btn" onclick="ask('Compare April 2019 vs April 2020 by borough')">Compare April
+                        2019 vs April 2020 by borough</button>
+                    <button class="story-btn" onclick="ask('How long did recovery take after April 2020?')">How long did
+                        recovery take after April 2020?</button>
+                </div>
+                <div class="story-group">
+                    <div class="story-group-label">Uber vs yellow taxi</div>
+                    <button class="story-btn" onclick="ask('Compare Uber and yellow taxi by year 2019 to 2024')">Compare
+                        Uber and yellow taxi by year 2019 to 2024</button>
+                    <button class="story-btn" onclick="ask('What percentage of 2024 trips were rideshare?')">What
+                        percentage of 2024 trips were rideshare?</button>
+                    <button class="story-btn" onclick="ask('Which rideshare company had most trips in 2023?')">Which
+                        rideshare company had most trips in 2023?</button>
+                </div>
+                <div class="story-group">
+                    <div class="story-group-label">Weather impact</div>
+                    <button class="story-btn" onclick="ask('Do yellow taxi trips increase when it rains?')">Do yellow
+                        taxi trips increase when it rains?</button>
+                    <button class="story-btn" onclick="ask('Average fare on cold vs warm days in Manhattan')">Average
+                        fare on cold vs warm days</button>
+                </div>
+                <div class="story-group">
+                    <div class="story-group-label">Borough patterns</div>
+                    <button class="story-btn" onclick="ask('Top 10 pickup zones in Manhattan by trip count')">Top 10
+                        pickup zones in Manhattan</button>
+                    <button class="story-btn" onclick="ask('Which borough generates most yellow taxi revenue?')">Which
+                        borough generates most revenue?</button>
+                    <button class="story-btn" onclick="ask('Average trip distance from JFK vs LaGuardia')">JFK vs
+                        LaGuardia trip distance</button>
+                </div>
+            </div>
+
+            <div class="sidebar-card" id="stack">
+                <div class="sidebar-card-header">Stack</div>
+                <div class="tech-list">
+                    <div class="tech-item"><span class="tech-name">Data volume</span><span class="tech-val">1.57B
+                            rows</span></div>
+                    <div class="tech-item"><span class="tech-name">Storage</span><span class="tech-val">Azure ADLS
+                            Gen2</span></div>
+                    <div class="tech-item"><span class="tech-name">Compute</span><span class="tech-val">Azure
+                            Databricks</span></div>
+                    <div class="tech-item"><span class="tech-name">Format</span><span class="tech-val">Delta Lake</span>
+                    </div>
+                    <div class="tech-item"><span class="tech-name">Transform</span><span class="tech-val">PySpark +
+                            dbt</span></div>
+                    <div class="tech-item"><span class="tech-name">AI agent</span><span class="tech-val">Claude Sonnet
+                            4.6</span></div>
+                    <div class="tech-item"><span class="tech-name">Query engine</span><span
+                            class="tech-val">DuckDB</span></div>
+                    <div class="tech-item"><span class="tech-name">IaC</span><span class="tech-val">Terraform</span>
+                    </div>
+                    <div class="tech-item"><span class="tech-name">Guardrails</span><span class="tech-val">26/26 tests
+                            ✓</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>Built by Kavya Mehta · MS Computer Software Engineering, Northeastern 2026</div>
+        <a href="https://github.com/Kavya-Mehta/CabStream" target="_blank">GitHub →</a>
+    </footer>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:8000'
+            : window.location.origin;
+
+        let currentChart = null;
+
+        function ask(question) {
+            document.getElementById('queryInput').value = question.replace(/\s+/g, ' ').trim();
+            runQuery();
+        }
+
+        document.getElementById('queryInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') runQuery();
+        });
+
+        function formatVal(val) {
+            if (val === null || val === undefined) return '—';
+            if (typeof val === 'boolean') return val ? 'Yes' : 'No';
+            if (typeof val === 'number') {
+                if (Number.isInteger(val)) return val.toLocaleString();
+                return parseFloat(val.toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            return String(val);
+        }
+
+        function getBoolLabel(colName, val) {
+            const col = colName.toLowerCase();
+            if (col.includes('rush')) return val === 'true' ? 'Rush hour' : 'Non-rush hour';
+            if (col.includes('weekend')) return val === 'true' ? 'Weekend' : 'Weekday';
+            return val === 'true' ? 'Yes' : 'No';
+        }
+
+        async function runQuery() {
+            const question = document.getElementById('queryInput').value.replace(/\s+/g, ' ').trim();
+            if (!question) return;
+
+            const btn = document.getElementById('runBtn');
+            const area = document.getElementById('resultsArea');
+
+            btn.disabled = true;
+            btn.textContent = 'Running...';
+            area.innerHTML = `<div class="loading"><div class="spinner"></div><span>Generating SQL and querying data…</span></div>`;
+
+            if (currentChart) { currentChart.destroy(); currentChart = null; }
+
+            try {
+                const res = await fetch(`${API_URL}/query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+
+                if (!res.ok) throw new Error(`Server error: ${res.status}`);
+                const data = await res.json();
+
+                if (!data.valid) {
+                    const isGuardrail = data.error && (
+                        data.error.includes('SELECT') || data.error.includes('LIMIT') ||
+                        data.error.includes('Blocked') || data.error.includes('Forbidden') ||
+                        data.error.includes('Unknown tables')
+                    );
+                    area.innerHTML = isGuardrail
+                        ? `<div class="guardrail-box">🛡️ <span><strong>Query blocked by guardrail:</strong> ${data.error}</span></div>`
+                        : `<div class="error-box">${data.error || 'Something went wrong. Try rephrasing the question.'}</div>`;
+                    return;
+                }
+
+                const rows = data.results;
+                if (!rows || rows.length === 0) {
+                    area.innerHTML = `<div class="results-empty"><div class="results-empty-line"></div>No results found. Try rephrasing.</div>`;
+                    return;
+                }
+
+                const cols = Object.keys(rows[0]);
+                const numCols = cols.filter(c => typeof rows[0][c] === 'number');
+                const catCols = cols.filter(c => typeof rows[0][c] !== 'number');
+
+                const tableRows = rows.slice(0, 100).map(r =>
+                    `<tr>${cols.map(c => `<td>${formatVal(r[c])}</td>`).join('')}</tr>`
+                ).join('');
+
+                const tableHTML = `
+      <div class="result-table-wrap">
+        <table>
+          <thead><tr>${cols.map(c => `<th>${c.replace(/_/g, ' ')}</th>`).join('')}</tr></thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>`;
+
+                const showChart = numCols.length >= 1 && catCols.length >= 1 && rows.length > 1;
+                const chartHeight = Math.min(Math.max(rows.length * 32 + 60, 180), 320);
+                const chartHTML = showChart
+                    ? `<div class="result-chart"><div class="chart-wrap" style="height:${chartHeight}px"><canvas id="resultChart" role="img" aria-label="Chart of query results"></canvas></div></div>`
+                    : '';
+
+                const sqlHTML = `<div style="margin-top:16px"><div class="sql-label">Generated SQL</div><div class="sql-block">${data.sql}</div></div>`;
+                const insightHTML = data.explanation ? `<div class="insight">💡 ${data.explanation}</div>` : '';
+
+                area.innerHTML = `
+      <div class="result-meta">
+        <span class="result-count"><strong>${rows.length.toLocaleString()}</strong> results</span>
+      </div>
+      ${chartHTML}${tableHTML}${sqlHTML}${insightHTML}`;
+
+                if (showChart) {
+                    const rawLabels = rows.map(r => String(r[catCols[0]]));
+                    const isBool = rawLabels.every(l => l === 'true' || l === 'false');
+                    const labels = isBool
+                        ? rawLabels.map(l => getBoolLabel(catCols[0], l))
+                        : rawLabels;
+                    const values = rows.map(r => Number(r[numCols[0]]));
+
+                    const ctx = document.getElementById('resultChart');
+                    if (ctx) {
+                        currentChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels,
+                                datasets: [{ label: numCols[0].replace(/_/g, ' '), data: values, backgroundColor: '#F7C948', borderRadius: 4, borderSkipped: false }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: {
+                                        backgroundColor: '#0F1420', borderColor: '#1C2235', borderWidth: 1,
+                                        titleColor: '#E8EAF0', bodyColor: '#6B7FA8',
+                                        callbacks: {
+                                            label: ctx => {
+                                                const v = ctx.parsed.y;
+                                                return ' ' + (v >= 1e9 ? (v / 1e9).toFixed(2) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(0) + 'K' : v.toFixed(2));
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        grid: { color: '#1C2235' },
+                                        ticks: { color: '#3A4560', font: { size: 10 }, maxRotation: 45, autoSkip: rows.length > 12 }
+                                    },
+                                    y: {
+                                        grid: { color: '#1C2235' },
+                                        ticks: {
+                                            color: '#3A4560', font: { size: 10 },
+                                            callback: v => v >= 1e9 ? (v / 1e9).toFixed(1) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(0) + 'K' : v
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+
+            } catch (err) {
+                area.innerHTML = `<div class="error-box">Could not reach the server. Make sure the backend is running.<br><span style="font-size:11px;opacity:0.6">${err.message}</span></div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Run query →';
+            }
+        }
+    </script>
+</body>
+
+</html>
