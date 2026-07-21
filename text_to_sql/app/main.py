@@ -221,7 +221,7 @@ async def lifespan(app: FastAPI):
                 filesystem=fs
             )
             df = dataset.read().to_pandas()
-            db.execute(f"CREATE TABLE {table_name} AS SELECT * FROM df")
+            db.register(table_name, df)
             count = db.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0]
             print(f"  {table_name}: {count} rows")
         except Exception as e:
