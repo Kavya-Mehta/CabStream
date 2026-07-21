@@ -1,11 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
 from pathlib import Path
 from dotenv import load_dotenv
-from deltalake import DeltaTable
 import duckdb
 import os
 import anthropic
@@ -203,22 +202,15 @@ Answer the question using these facts. Give the closest relevant insight if exac
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global db
-    print("Loading tables into memory...")
+    print("Loading tables from CSV...")
     db = duckdb.connect()
 
-    key = os.getenv("ADLS_STORAGE_KEY")
-    storage_options = {
-        "account_name": "cabstreamdata",
-        "account_key": key
-    }
+    data_dir = Path(__file__).parent.parent / "data"
 
     for table_name in KNOWN_TABLES:
         try:
-            dt = DeltaTable(
-                f"abfss://delta@cabstreamdata.dfs.core.windows.net/summary/{table_name}",
-                storage_options=storage_options
-            )
-            df = dt.to_pandas()
+            csv_path = data_dir / f"{table_name}.csv"
+            df = pd.read_csv(csv_path)
             db.register(table_name, df)
             count = db.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0]
             print(f"  {table_name}: {count} rows")
@@ -286,7 +278,6 @@ def query(request: QuestionRequest):
     if not question:
         raise HTTPException(status_code=400, detail="Question cannot be empty")
 
-    # ── Tier 1: Intent routing → pre-computed answers ─────────────────────────
     intent = classify_intent(question)
     if intent:
         table = INTENT_MAP[intent]["table"]
@@ -307,7 +298,6 @@ def query(request: QuestionRequest):
         except Exception:
             pass
 
-    # ── Tier 2: Fallback SQL generation ──────────────────────────────────────
     result = generate_fallback_sql(question)
     if result["valid"]:
         try:
@@ -327,7 +317,6 @@ def query(request: QuestionRequest):
         except Exception:
             pass
 
-    # ── Tier 3: Knowledge-based answer ───────────────────────────────────────
     explanation = knowledge_answer(question)
     return QueryResponse(
         question=question,
