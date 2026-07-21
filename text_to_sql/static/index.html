@@ -758,7 +758,11 @@
 
                 const rows = data.results;
                 if (!rows || rows.length === 0) {
-                    area.innerHTML = `<div class="results-empty"><div class="results-empty-line"></div>No results found. Try rephrasing.</div>`;
+                    if (data.data_source === 'knowledge' && data.explanation) {
+                        area.innerHTML = `<div class="insight">💡 ${data.explanation}</div>`;
+                    } else {
+                        area.innerHTML = `<div class="results-empty"><div class="results-empty-line"></div>No results found. Try rephrasing.</div>`;
+                    }
                     return;
                 }
 

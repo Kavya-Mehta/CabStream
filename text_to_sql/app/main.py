@@ -82,6 +82,11 @@ INTENT_MAP = {
         "keywords": ["tip", "tipping", "year over year", "yearly", "tip amount", "tip changed", "tip trend", "biggest jump", "tip behavior"],
         "description": "Year over year average tip amounts and tip percentages for yellow taxi"
     },
+    "borough_fare": {
+        "table": "borough_summary",
+        "keywords": ["highest fare", "average fare", "fare by borough", "fare per trip", "borough fare", "fare 2023", "fare 2019", "fare compare", "fare borough"],
+        "description": "Average fare per trip by NYC borough and year"
+    },
 }
 
 FALLBACK_SCHEMA = """
@@ -278,6 +283,7 @@ def query(request: QuestionRequest):
     if not question:
         raise HTTPException(status_code=400, detail="Question cannot be empty")
 
+    # ── Tier 1: Intent routing → pre-computed answers ─────────────────────────
     intent = classify_intent(question)
     if intent:
         table = INTENT_MAP[intent]["table"]
@@ -298,6 +304,7 @@ def query(request: QuestionRequest):
         except Exception:
             pass
 
+    # ── Tier 2: Fallback SQL generation ──────────────────────────────────────
     result = generate_fallback_sql(question)
     if result["valid"]:
         try:
@@ -317,6 +324,7 @@ def query(request: QuestionRequest):
         except Exception:
             pass
 
+    # ── Tier 3: Knowledge-based answer ───────────────────────────────────────
     explanation = knowledge_answer(question)
     return QueryResponse(
         question=question,
