@@ -9,6 +9,8 @@ import duckdb
 import os
 import anthropic
 import re
+import adlfs
+import pyarrow.parquet as pq
 
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
@@ -203,22 +205,28 @@ async def lifespan(app: FastAPI):
     global db
     print("Loading tables into memory...")
     db = duckdb.connect()
-    db.execute("INSTALL azure; LOAD azure;")
+
     key = os.getenv("ADLS_STORAGE_KEY")
-    db.execute(f"""
-        CREATE SECRET azure_secret (
-            TYPE AZURE,
-            CONNECTION_STRING 'DefaultEndpointsProtocol=https;AccountName=cabstreamdata;AccountKey={key};EndpointSuffix=core.windows.net'
-        )
-    """)
-    summary = "abfss://delta@cabstreamdata.dfs.core.windows.net/summary"
+    fs = adlfs.AzureBlobFileSystem(
+        account_name="cabstreamdata",
+        account_key=key
+    )
+
+    summary = "delta/summary"
+
     for table_name in KNOWN_TABLES:
         try:
-            db.execute(f"CREATE TABLE {table_name} AS SELECT * FROM delta_scan('{summary}/{table_name}')")
+            dataset = pq.ParquetDataset(
+                f"{summary}/{table_name}",
+                filesystem=fs
+            )
+            df = dataset.read().to_pandas()
+            db.execute(f"CREATE TABLE {table_name} AS SELECT * FROM df")
             count = db.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0]
             print(f"  {table_name}: {count} rows")
         except Exception as e:
             print(f"  SKIP {table_name}: {e}")
+
     print("All tables loaded. Ready.")
     yield
     db.close()
@@ -304,7 +312,7 @@ def query(request: QuestionRequest):
         try:
             df = db.execute(result["sql"]).df()
             results = df.to_dict(orient="records")
-            if results:  # Only return if we got actual results
+            if results:
                 explanation = explain_answer(question, "fallback", results)
                 return QueryResponse(
                     question=question,
