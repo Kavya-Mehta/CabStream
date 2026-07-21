@@ -1,16 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
 from pathlib import Path
 from dotenv import load_dotenv
+from deltalake import DeltaTable
 import duckdb
 import os
 import anthropic
 import re
-import adlfs
-import pyarrow.parquet as pq
+import pandas as pd
 
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
@@ -20,17 +20,17 @@ db = None
 MODEL = "claude-sonnet-4-6"
 
 
-def find_project_root():
-    current = Path(__file__).parent
-    while current != current.parent:
-        if (current / ".git").exists() or (current / "README.md").exists():
-            return current
-        current = current.parent
-    return Path(__file__).parent.parent.parent
+def find_html():
+    candidates = [
+        Path(__file__).parent.parent / "static" / "index.html",
+        Path(__file__).parent.parent / "index.html",
+        Path(__file__).parent.parent.parent / "streamlit_app" / "index.html",
+    ]
+    for p in candidates:
+        if p.exists():
+            return p
+    return None
 
-
-PROJECT_ROOT = find_project_root()
-HTML_PATH = Path(__file__).parent.parent / "static" / "index.html"
 
 INTENT_MAP = {
     "covid_monthly": {
@@ -207,20 +207,18 @@ async def lifespan(app: FastAPI):
     db = duckdb.connect()
 
     key = os.getenv("ADLS_STORAGE_KEY")
-    fs = adlfs.AzureBlobFileSystem(
-        account_name="cabstreamdata",
-        account_key=key
-    )
-
-    summary = "delta/summary"
+    storage_options = {
+        "account_name": "cabstreamdata",
+        "account_key": key
+    }
 
     for table_name in KNOWN_TABLES:
         try:
-            dataset = pq.ParquetDataset(
-                f"{summary}/{table_name}",
-                filesystem=fs
+            dt = DeltaTable(
+                f"abfss://delta@cabstreamdata.dfs.core.windows.net/summary/{table_name}",
+                storage_options=storage_options
             )
-            df = dataset.read().to_pandas()
+            df = dt.to_pandas()
             db.register(table_name, df)
             count = db.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0]
             print(f"  {table_name}: {count} rows")
@@ -263,7 +261,10 @@ class QueryResponse(BaseModel):
 
 @app.get("/")
 def serve_frontend():
-    return FileResponse(str(HTML_PATH), media_type="text/html")
+    html_path = find_html()
+    if html_path:
+        return HTMLResponse(content=html_path.read_text())
+    return HTMLResponse(content="<h1>CabStream API running</h1>")
 
 
 @app.get("/health")
