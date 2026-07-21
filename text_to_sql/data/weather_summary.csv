@@ -1,0 +1,160 @@
+borough,temp_bucket,rain_bucket,trips,avg_fare,avg_tip,avg_distance
+Staten Island,Hot (>30C),No rain,396,63.55,2.42,15.59
+Queens,Warm (20-30C),Moderate rain,103101,43.46,6.57,12.28
+Queens,Mild (10-20C),Heavy rain,74932,43.76,6.69,12.0
+,Mild (10-20C),No rain,37593,83.95,9.48,2.86
+Bronx,Cold (0-10C),Light rain,9253,27.95,0.51,6.07
+Bronx,Warm (20-30C),No rain,107704,27.23,0.73,5.1
+Unknown,Hot (>30C),Moderate rain,147,14.73,2.22,2.33
+Brooklyn,Warm (20-30C),No rain,536893,21.04,1.95,4.15
+Unknown,Freezing (<0C),Light rain,5468,15.22,2.59,2.97
+Bronx,Warm (20-30C),Light rain,2548,27.37,0.74,5.09
+Queens,Cold (0-10C),Heavy rain,28498,41.75,6.07,11.56
+Brooklyn,Hot (>30C),Heavy rain,2429,27.02,2.02,5.07
+Staten Island,Freezing (<0C),No rain,1087,55.82,1.5,16.1
+Brooklyn,Warm (20-30C),Heavy rain,5395,21.81,2.14,4.28
+EWR,Warm (20-30C),Moderate rain,155,86.12,10.88,1.07
+Queens,Cold (0-10C),Moderate rain,204235,41.59,6.38,11.66
+Brooklyn,Mild (10-20C),Light rain,33584,21.03,1.98,4.23
+Brooklyn,Hot (>30C),No rain,46766,19.89,2.0,3.8
+Staten Island,Mild (10-20C),Moderate rain,133,71.12,1.57,16.64
+EWR,Cold (0-10C),Light rain,683,84.53,10.74,1.12
+Manhattan,Hot (>30C),Moderate rain,21554,10.85,1.71,2.26
+Queens,Mild (10-20C),Light rain,335561,43.89,6.94,12.14
+Manhattan,Mild (10-20C),No rain,62721218,13.05,2.46,2.41
+Manhattan,Cold (0-10C),No rain,64694020,12.6,2.37,2.34
+Brooklyn,Cold (0-10C),Moderate rain,26193,19.48,1.78,4.2
+Unknown,Warm (20-30C),Heavy rain,5620,21.34,3.6,4.57
+Bronx,Mild (10-20C),Moderate rain,3747,27.13,0.71,5.38
+,Cold (0-10C),Moderate rain,1505,83.31,9.27,3.12
+EWR,Freezing (<0C),No rain,1888,84.31,11.69,1.29
+Staten Island,Cold (0-10C),No rain,4095,58.27,1.81,16.46
+Bronx,Mild (10-20C),No rain,114410,28.05,0.62,5.57
+Queens,Freezing (<0C),Moderate rain,15943,39.8,5.77,11.59
+Manhattan,Warm (20-30C),No rain,58488919,12.91,2.4,2.42
+Unknown,Warm (20-30C),No rain,537819,19.61,3.3,3.97
+EWR,Mild (10-20C),Light rain,636,87.91,12.11,0.88
+EWR,Warm (20-30C),Light rain,206,86.36,11.23,1.38
+Brooklyn,Freezing (<0C),No rain,165537,21.17,1.52,4.65
+Manhattan,Freezing (<0C),Light rain,643346,11.59,2.22,2.19
+Queens,Hot (>30C),No rain,608855,44.62,6.87,12.53
+Staten Island,Mild (10-20C),Heavy rain,52,41.08,1.17,12.17
+Queens,Hot (>30C),Heavy rain,25675,52.04,8.44,12.46
+EWR,Hot (>30C),Moderate rain,3,61.0,51.11,0.0
+Bronx,Cold (0-10C),Heavy rain,1003,28.58,0.76,6.45
+Manhattan,Warm (20-30C),Heavy rain,542051,13.16,2.43,2.64
+Bronx,Hot (>30C),No rain,8846,25.39,0.83,4.53
+,Warm (20-30C),No rain,39877,87.04,9.52,2.77
+,Cold (0-10C),Heavy rain,359,72.43,8.45,2.09
+Bronx,Cold (0-10C),No rain,121836,27.87,0.52,5.97
+Brooklyn,Cold (0-10C),Heavy rain,5323,20.88,2.09,4.71
+Manhattan,Freezing (<0C),No rain,16684138,11.96,2.2,2.24
+Brooklyn,Hot (>30C),Light rain,251,16.51,2.02,4.13
+EWR,Cold (0-10C),Heavy rain,66,84.48,11.29,0.47
+EWR,Mild (10-20C),Heavy rain,135,87.99,11.0,1.87
+Bronx,Freezing (<0C),Moderate rain,538,24.86,0.41,5.86
+Manhattan,Mild (10-20C),Moderate rain,2125940,13.0,2.42,2.41
+Queens,Mild (10-20C),Moderate rain,201853,43.92,6.76,12.05
+Staten Island,Hot (>30C),Moderate rain,3,36.33,0.0,13.11
+Unknown,Cold (0-10C),Moderate rain,21480,17.48,2.93,3.36
+Unknown,Cold (0-10C),No rain,572681,18.43,3.14,3.62
+EWR,Mild (10-20C),Moderate rain,322,89.02,12.21,0.8
+Queens,Freezing (<0C),Light rain,43996,41.63,6.26,11.56
+Staten Island,Mild (10-20C),No rain,4187,59.01,1.76,15.97
+,Warm (20-30C),Heavy rain,600,94.39,9.2,2.81
+Staten Island,Cold (0-10C),Moderate rain,169,57.34,1.34,14.25
+Manhattan,Mild (10-20C),Heavy rain,752306,13.37,2.46,2.53
+Staten Island,Hot (>30C),Heavy rain,8,24.35,3.63,7.47
+Bronx,Warm (20-30C),Heavy rain,1242,29.01,0.95,4.98
+,Mild (10-20C),Heavy rain,649,86.01,10.14,2.87
+Bronx,Freezing (<0C),Light rain,1554,27.71,0.4,6.79
+Manhattan,Warm (20-30C),Light rain,1319876,12.76,2.39,2.44
+Staten Island,Warm (20-30C),Heavy rain,56,70.16,2.3,18.83
+Unknown,Mild (10-20C),Light rain,34006,19.69,3.45,4.02
+Manhattan,Hot (>30C),No rain,6297866,12.49,2.38,2.31
+,Cold (0-10C),No rain,34864,82.17,9.29,2.88
+,Freezing (<0C),Light rain,322,84.45,8.1,2.45
+,Warm (20-30C),Light rain,1077,91.06,10.16,2.68
+Queens,Cold (0-10C),No rain,5374916,43.06,6.75,11.85
+Bronx,Warm (20-30C),Moderate rain,1951,29.08,0.79,5.33
+Manhattan,Cold (0-10C),Light rain,5012533,12.39,2.33,2.3
+Unknown,Mild (10-20C),Moderate rain,20071,18.85,3.23,3.47
+,Mild (10-20C),Moderate rain,1555,86.44,10.7,2.89
+Brooklyn,Freezing (<0C),Moderate rain,2466,18.91,1.58,4.25
+Brooklyn,Mild (10-20C),Moderate rain,20473,20.55,2.0,4.2
+EWR,Freezing (<0C),Light rain,68,85.76,10.19,1.29
+Bronx,Hot (>30C),Light rain,33,20.81,1.13,5.26
+,Freezing (<0C),No rain,8694,73.49,8.69,3.02
+Brooklyn,Cold (0-10C),Light rain,47454,20.47,1.75,4.38
+Queens,Hot (>30C),Light rain,1769,37.06,4.87,11.93
+Manhattan,Hot (>30C),Heavy rain,253623,14.53,2.99,2.24
+Brooklyn,Warm (20-30C),Moderate rain,9953,20.67,1.89,4.02
+Brooklyn,Freezing (<0C),Light rain,6729,20.89,1.63,4.77
+Unknown,Cold (0-10C),Heavy rain,3269,18.49,3.23,3.71
+Queens,Warm (20-30C),Heavy rain,68854,43.67,6.62,12.27
+Brooklyn,Mild (10-20C),Heavy rain,7968,21.78,2.04,4.37
+,Warm (20-30C),Moderate rain,906,85.82,8.42,3.1
+Manhattan,Hot (>30C),Light rain,23626,10.97,1.91,2.36
+Staten Island,Warm (20-30C),No rain,3873,60.24,1.91,15.72
+Manhattan,Warm (20-30C),Moderate rain,976810,12.82,2.37,2.46
+EWR,Warm (20-30C),Heavy rain,90,89.34,11.0,2.94
+Unknown,Freezing (<0C),No rain,189951,15.38,2.52,3.04
+Queens,Warm (20-30C),Light rain,132677,43.14,6.55,12.17
+Staten Island,Freezing (<0C),Light rain,47,40.25,1.05,11.7
+Staten Island,Freezing (<0C),Moderate rain,12,43.91,0.0,13.45
+Brooklyn,Warm (20-30C),Light rain,12250,21.55,1.88,4.14
+Queens,Freezing (<0C),No rain,1236444,41.43,6.37,11.56
+Queens,Warm (20-30C),No rain,5725089,44.15,6.75,12.22
+Queens,Mild (10-20C),No rain,5579189,44.01,6.93,12.04
+Staten Island,Cold (0-10C),Light rain,309,53.66,3.46,14.75
+Manhattan,Freezing (<0C),Moderate rain,250760,11.01,2.14,2.22
+Manhattan,Mild (10-20C),Light rain,3648913,12.97,2.45,2.39
+Staten Island,Warm (20-30C),Moderate rain,79,52.37,1.8,14.55
+EWR,Cold (0-10C),Moderate rain,361,88.4,12.06,0.97
+Bronx,Cold (0-10C),Moderate rain,4816,26.78,0.56,5.93
+EWR,Cold (0-10C),No rain,8638,85.81,11.67,0.97
+Bronx,Mild (10-20C),Light rain,6380,28.01,0.56,5.55
+Bronx,Hot (>30C),Heavy rain,540,33.54,0.36,7.43
+Brooklyn,Hot (>30C),Moderate rain,288,25.0,1.01,5.77
+Unknown,Warm (20-30C),Moderate rain,9249,19.25,3.23,3.73
+Queens,Hot (>30C),Moderate rain,1438,38.17,4.51,10.93
+,Hot (>30C),No rain,4122,90.03,9.22,2.76
+Bronx,Hot (>30C),Moderate rain,76,28.96,0.19,7.38
+Bronx,Mild (10-20C),Heavy rain,1656,28.65,0.8,5.71
+Brooklyn,Cold (0-10C),No rain,595876,20.91,1.78,4.44
+EWR,Warm (20-30C),No rain,9748,86.12,11.21,1.17
+EWR,Hot (>30C),No rain,1145,88.92,11.02,1.02
+,Freezing (<0C),Moderate rain,130,82.0,9.64,2.28
+EWR,Mild (10-20C),No rain,9931,86.21,11.66,1.07
+Manhattan,Cold (0-10C),Heavy rain,328486,13.22,2.35,2.75
+Staten Island,Warm (20-30C),Light rain,92,72.02,2.38,17.77
+,Hot (>30C),Light rain,12,59.83,5.29,3.59
+Brooklyn,Mild (10-20C),No rain,570127,21.38,1.97,4.35
+Unknown,Hot (>30C),Heavy rain,1118,19.48,3.49,3.44
+,Cold (0-10C),Light rain,2703,81.0,9.33,2.6
+Unknown,Mild (10-20C),Heavy rain,7437,19.15,3.22,3.61
+Staten Island,Cold (0-10C),Heavy rain,30,55.68,3.95,10.74
+Manhattan,Cold (0-10C),Moderate rain,2550798,12.22,2.29,2.32
+,Mild (10-20C),Light rain,2344,86.36,9.41,2.76
+Unknown,Cold (0-10C),Light rain,42760,18.32,3.14,3.51
+Unknown,Mild (10-20C),No rain,553206,19.57,3.39,3.93
+Queens,Cold (0-10C),Light rain,414911,42.76,6.65,11.82
+Unknown,Warm (20-30C),Light rain,12487,19.61,3.33,4.04
+Staten Island,Mild (10-20C),Light rain,234,53.6,1.56,14.36
+Unknown,Hot (>30C),No rain,59145,19.56,3.31,4.08
+Bronx,Freezing (<0C),No rain,36490,27.91,0.45,6.45
+Unknown,Hot (>30C),Light rain,241,15.62,2.41,3.34
+,Hot (>30C),Moderate rain,5,40.84,14.2,1.06
+Unknown,Freezing (<0C),Moderate rain,1836,13.72,2.24,2.55
+,Hot (>30C),Heavy rain,147,85.28,7.3,2.25
+,Freezing (<0C),Heavy rain,24,88.75,6.87,1.78
+Manhattan,Freezing (<0C),Heavy rain,18787,12.67,2.25,2.96
+Unknown,Freezing (<0C),Heavy rain,216,20.06,3.32,4.54
+EWR,Freezing (<0C),Heavy rain,3,91.9,8.0,5.32
+Brooklyn,Freezing (<0C),Heavy rain,212,21.25,2.61,4.46
+Queens,Freezing (<0C),Heavy rain,1612,37.71,5.06,11.49
+Bronx,Freezing (<0C),Heavy rain,52,22.16,2.12,3.44
+EWR,Hot (>30C),Heavy rain,33,81.65,11.56,0.66
+EWR,Freezing (<0C),Moderate rain,23,64.52,14.91,1.69
+EWR,Hot (>30C),Light rain,1,17.5,0.0,0.0
+Staten Island,Freezing (<0C),Heavy rain,1,108.5,2.75,41.95

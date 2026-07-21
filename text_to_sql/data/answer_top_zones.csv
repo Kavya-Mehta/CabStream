@@ -1,0 +1,21 @@
+zone,borough,service_zone,trips,avg_fare,avg_tip,avg_distance,total_revenue
+Upper East Side South,Manhattan,Yellow Zone,11862783,10.69,2.13,1.78,199606911.0
+Midtown Center,Manhattan,Yellow Zone,10722778,13.51,2.6,2.37,220012661.0
+Upper East Side North,Manhattan,Yellow Zone,10673778,11.07,2.21,1.94,183946482.0
+JFK Airport,Queens,Airports,10354744,52.83,7.48,15.46,697736380.0
+Midtown East,Manhattan,Yellow Zone,8883150,12.95,2.55,2.34,175803500.0
+Penn Station/Madison Sq West,Manhattan,Yellow Zone,8865694,13.73,2.49,2.34,180091289.0
+Times Sq/Theatre District,Manhattan,Yellow Zone,8147022,15.39,2.73,2.96,185267136.0
+Lincoln Square East,Manhattan,Yellow Zone,8036240,11.82,2.33,2.17,146345318.0
+Murray Hill,Manhattan,Yellow Zone,7714867,12.78,2.45,2.29,150208845.0
+Clinton East,Manhattan,Yellow Zone,7398785,12.89,2.28,2.49,142896779.0
+Union Sq,Manhattan,Yellow Zone,7108697,12.0,2.4,2.09,131717700.0
+LaGuardia Airport,Queens,Airports,7034086,36.05,6.99,9.46,374383923.0
+Midtown North,Manhattan,Yellow Zone,7022267,13.5,2.55,2.43,143025644.0
+Upper West Side South,Manhattan,Yellow Zone,6989853,11.56,2.33,2.17,125170688.0
+Lenox Hill West,Manhattan,Yellow Zone,6321499,10.92,2.11,2.0,107334542.0
+East Chelsea,Manhattan,Yellow Zone,6312278,13.81,2.57,2.45,130057948.0
+East Village,Manhattan,Yellow Zone,6140807,12.44,2.4,2.45,116031099.0
+Midtown South,Manhattan,Yellow Zone,5688707,13.22,2.47,2.4,114117619.0
+Gramercy,Manhattan,Yellow Zone,5633011,11.96,2.33,2.21,103482997.0
+West Village,Manhattan,Yellow Zone,5225233,12.45,2.52,2.31,99752503.0

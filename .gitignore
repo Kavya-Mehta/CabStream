@@ -3,6 +3,10 @@ data/
 *.parquet
 *.crc
 
+# Exception: pre-computed summary CSVs for deployment
+!text_to_sql/data/
+!text_to_sql/data/*.csv
+
 # Python
 *.pyc
 __pycache__/
