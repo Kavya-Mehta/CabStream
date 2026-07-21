@@ -1,0 +1,6 @@
+payment_label,total_trips,avg_fare,avg_tip_pct
+Credit Card,195030294,15.97,22.79
+Cash,55117660,15.59,0.0
+Dispute,1099220,16.87,0.06
+No Charge,1073419,14.48,0.04
+Unknown,60,3.89,1.47

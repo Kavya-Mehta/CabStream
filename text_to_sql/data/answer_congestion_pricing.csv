@@ -1,0 +1,3 @@
+year,month,taxi_type,trips,avg_fare,avg_tip,avg_distance
+2024,1,Yellow Taxi,2757101,18.57,3.47,3.25
+2025,1,Yellow Taxi,2850384,18.06,3.5,3.14

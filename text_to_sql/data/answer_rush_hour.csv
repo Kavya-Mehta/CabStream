@@ -1,0 +1,4 @@
+is_rush_hour,is_weekend,total_trips,avg_fare,avg_tip_pct
+True,False,73326808,14.83,18.55
+False,False,112012258,16.44,16.89
+False,True,66981587,15.84,16.95
