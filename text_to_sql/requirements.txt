@@ -8,3 +8,4 @@ anthropic>=0.28.0
 adlfs>=2024.2.0
 pyarrow>=14.0.0
 certifi>=2024.0.0
+deltalake>=0.17.0
