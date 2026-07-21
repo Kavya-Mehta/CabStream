@@ -30,7 +30,7 @@ def find_project_root():
 
 
 PROJECT_ROOT = find_project_root()
-HTML_PATH = PROJECT_ROOT / "streamlit_app" / "index.html"
+HTML_PATH = Path(__file__).parent.parent / "static" / "index.html"
 
 INTENT_MAP = {
     "covid_monthly": {
